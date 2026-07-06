@@ -12,6 +12,11 @@ app.post('/notes',(req,res) => {
         message: "vamos"
     })
 })
-
+app.get('/notes',(req,res) =>{
+    res.status(200).json({
+        message: "we have arrived, fetched successfully",
+        notes: notes
+    })
+})
 
 module.exports = app
