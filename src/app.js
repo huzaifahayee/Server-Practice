@@ -1,43 +1,30 @@
-//server ko create krna
-const express = require("express")
+const express = require('express');
+const noteModel = require('./models/note.model')
+
 
 const app = express();
-app.use(express.json())
-const notes = []
+app.use(express.json());
 
-app.post('/notes',(req,res) => {
-    notes.push(req.body);
 
+app.post("/notes",async (req,res) =>{
+    const data = req.body;
+   await noteModel.create({
+        title: data.title,
+        description: data.description
+    })
     res.status(201).json({
-        message: "vamos"
+        message: "note created"
     })
 })
-app.get('/notes',(req,res) =>{
+
+app.get("/notes", async (req,res)=>{
+    const notes = await noteModel.find()
+
     res.status(200).json({
-        message: "we have arrived, fetched successfully",
+        message: "Notes fetched successfully",
         notes: notes
-    })
+
+    }
 })
 
-app.delete('/notes/:index',(req,res) =>{
-    const index = req.params.index;
-    delete notes[index];
-    res.status(200).json({
-        message: "turr gya successfully"
-    })
-})
-
-app.patch('/notes/:index',(req,res) => {
-
-    const index = req.params.index
-    const description = req.body.description
-
-    notes[index].description = description; 
-    res.status(200).json({
-        message: "Note nu update kr ditta"
-    })
-})
-
-
-
-module.exports = app
+module.exports = app;
