@@ -22,9 +22,18 @@ app.get("/notes", async (req,res)=>{
 
     res.status(200).json({
         message: "Notes fetched successfully",
-        notes: notes
-
-    }
+        notes: notes 
+    })
 })
 
+app.delete("/notes/:id", async (req,res)=>{
+    const id = req.params.id
+    await noteModel.findOneAndDelete({
+        _id: id
+    })
+      res.status(200).json({
+        message: "Notes deleted successfully"
+
+    })
+})
 module.exports = app;
